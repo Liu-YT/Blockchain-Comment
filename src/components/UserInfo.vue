@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { address, FacABI, ComABI } from './../util/constract'
+// import { address, FacABI, ComABI } from './../util/constract'
 import { getTransactionsByAddr } from './../util/getTransactionsByAddr'
 
 export default {

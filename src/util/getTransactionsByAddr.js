@@ -26,7 +26,7 @@ var getTransactionsByAddr = async function (web3, account, startBlockNumber, end
   return all
 }
 
-// 时间转换
+// 时间转换 unix时间戳
 function timeConverter (cTime) {
   var a = new Date(cTime * 1000)
   var year = a.getFullYear()
@@ -39,4 +39,26 @@ function timeConverter (cTime) {
   return time
 }
 
-export { getTransactionsByAddr, timeConverter }
+// 格式化日期,
+function formatDate (str) {
+  let oDate = new Date(str)
+  let oYear = oDate.getFullYear()
+  let oMonth = oDate.getMonth() + 1
+  let oDay = oDate.getDate()
+  let oHour = oDate.getHours()
+  let oMin = oDate.getMinutes()
+  let oSen = oDate.getSeconds()
+  let oTime = oYear + '-' + addZero(oMonth) + '-' + addZero(oDay) + ' ' + addZero(oHour) + ':' +
+  addZero(oMin) + ':' + addZero(oSen)
+  return oTime
+}
+
+// 补零操作
+function addZero (num) {
+  if (parseInt(num) < 10) {
+    num = '0' + num
+  }
+  return num
+}
+
+export { getTransactionsByAddr, timeConverter, formatDate }

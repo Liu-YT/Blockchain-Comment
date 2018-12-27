@@ -1,4 +1,7 @@
-const address = '0x8fe6201c3937d19f179e952a9b75977bacdc9019'
+const address = '0x5e9628380eaabe170c66a5e25a6ab3b19363c345'
+
+const coinbase = '0xb739b7552705db7c47b896bd73cca028ed7552fc'
+
 const FacABI = [
   {
     'constant': false,
@@ -49,32 +52,6 @@ const FacABI = [
 
 const ComABI = [
   {
-    'constant': false,
-    'inputs': [
-      {
-        'name': 'commentUser',
-        'type': 'string'
-      },
-      {
-        'name': 'comment',
-        'type': 'string'
-      },
-      {
-        'name': 'score',
-        'type': 'int256'
-      },
-      {
-        'name': 'ctime',
-        'type': 'string'
-      }
-    ],
-    'name': 'setComment',
-    'outputs': [],
-    'payable': true,
-    'stateMutability': 'payable',
-    'type': 'function'
-  },
-  {
     'constant': true,
     'inputs': [],
     'name': 'getAllComments',
@@ -95,7 +72,7 @@ const ComABI = [
           },
           {
             'name': 'score',
-            'type': 'int256'
+            'type': 'string'
           }
         ],
         'name': '_comments',
@@ -107,13 +84,61 @@ const ComABI = [
     'type': 'function'
   },
   {
+    'constant': false,
+    'inputs': [
+      {
+        'name': 'commentUser',
+        'type': 'string'
+      },
+      {
+        'name': 'comment',
+        'type': 'string'
+      },
+      {
+        'name': 'score',
+        'type': 'string'
+      },
+      {
+        'name': 'ctime',
+        'type': 'string'
+      }
+    ],
+    'name': 'setComment',
+    'outputs': [],
+    'payable': true,
+    'stateMutability': 'payable',
+    'type': 'function'
+  },
+  {
     'constant': true,
     'inputs': [],
-    'name': 'getObjectName',
+    'name': 'getObjectInfo',
     'outputs': [
       {
-        'name': '_name',
-        'type': 'string'
+        'components': [
+          {
+            'name': 'name',
+            'type': 'string'
+          },
+          {
+            'name': 'owner',
+            'type': 'string'
+          },
+          {
+            'name': 'ctime',
+            'type': 'string'
+          },
+          {
+            'name': 'theme',
+            'type': 'string'
+          },
+          {
+            'name': 'num',
+            'type': 'uint256'
+          }
+        ],
+        'name': '_info',
+        'type': 'tuple'
       }
     ],
     'payable': false,
@@ -145,4 +170,4 @@ const ComABI = [
   }
 ]
 
-export { address, FacABI, ComABI }
+export { coinbase, address, FacABI, ComABI }

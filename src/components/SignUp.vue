@@ -20,6 +20,7 @@
 
 <script>
 import SIdentify from './SIdentify.vue'
+import { coinbase } from '../util/constract'
 export default {
   data () {
     return {
@@ -53,47 +54,67 @@ export default {
   },
   methods: {
     submitForm (ev) {
+      let _this = this
       this.$refs.ruleForm.validate((valid) => {
         if (valid && this.identifyCode === this.ruleForm.checkCode) {
-          this.logining = true
-          this.$web3.eth.personal.newAccount(this.ruleForm.checkPass, (err, result) => {
-            console.log(result)
-            this.logining = false
+          _this.logining = true
+          _this.$web3.eth.personal.newAccount(_this.ruleForm.checkPass, (err, result) => {
+            _this.logining = false
             if (err) {
-              this.$message({
+              _this.$message({
                 message: '创建失败，请再次尝试',
                 showClose: true,
                 type: 'error'
               })
             } else {
-              this.$message({
-                message: '创建成功，请记住你的账号',
-                type: 'success',
-                showClose: true
-              })
-              var info = '你的账号: ' + result
-              this.$notify({
-                title: '最后的提示',
-                message: result
-              })
-              this.$alert(info, '重要信息', {
-                confirmButtonText: '我已记住',
-                callback: action => {
-                  this.$router.push('/login')
-                }
-              })
+              _this.$web3.eth.personal.unlockAccount(coinbase, '').then(
+                function (unlock) {
+                  if (unlock) {
+                    _this.$message({
+                      message: '创建成功，请记住你的账号',
+                      type: 'success',
+                      showClose: true
+                    })
+                    var info = '你的账号: ' + result
+                    _this.$notify({
+                      title: '提示',
+                      message: '获得 0.5 eth 的初始奖励，稍后到账'
+                    })
+                    try {
+                      _this.$web3.eth.sendTransaction({from: coinbase, to: result, value: '500000000000000000'})
+                        .then(
+                          function (err, r) {
+                            console.log(err, r)
+                          }
+                        )
+                        .catch(
+                          function (err) {
+                            console.log(err)
+                          }
+                        )
+                    } catch (err) {
+                      console.log(err)
+                    }
+                    _this.$alert(info, '重要信息', {
+                      confirmButtonText: '我已记住',
+                      callback: action => {
+                        _this.$router.push('/login')
+                      }
+                    })
+                  }
+                })
             }
           })
         } else if (!valid) {
-          this.logining = false
-          this.$message({
+          _this.logining = false
+          _this.$message({
             message: '请输入密码',
             showClose: true,
             type: 'error'
           })
         } else {
-          this.logining = false
-          this.$message({
+          _this.logining = false
+          _this.$message({
             message: '验证码错误',
             showClose: true,
             type: 'error'

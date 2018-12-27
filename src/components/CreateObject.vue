@@ -9,6 +9,7 @@
         <el-option label="科技" value="科技" style="width:300px"></el-option>
         <el-option label="出行" value="出行" style="width:300px"></el-option>
         <el-option label="购物" value="购物" style="width:300px"></el-option>
+        <el-option label="日常" value="日常" style="width:300px"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { address, FacABI, ComABI } from './../util/constract'
+import { address, FacABI } from './../util/constract'
 export default {
   data () {
     return {
@@ -59,11 +60,12 @@ export default {
                           message: '你的交易已被确认',
                           type: 'success',
                           duration: 0
-                        });
+                        })
                       }
                     )
                     .catch(
                       function (err) {
+                        console.log(err)
                         _this.resetForm('')
                         _this.$message({
                           message: '余额不足',
@@ -79,7 +81,7 @@ export default {
                     showClose: true
                   })
                 } catch (err) {
-                   _this.$message({
+                  _this.$message({
                     message: '未知错误，请重试',
                     type: 'err',
                     showClose: true
@@ -105,8 +107,8 @@ export default {
         }
       })
     },
-    resetForm(formName) {
-      this.$refs.ruleForm2.resetFields();
+    resetForm (formName) {
+      this.$refs.ruleForm2.resetFields()
     }
   }
 }

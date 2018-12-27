@@ -28,7 +28,15 @@ contract Object {
         string name;
         string comment;
         string ctime;
-        int score;   
+        string score;   
+    }
+    
+    // 信息
+    struct info {
+        string owner;
+        string ctime;
+        string theme;
+        uint256 num;
     }
     
     // 构造函数，初始化
@@ -40,7 +48,7 @@ contract Object {
     }
      
     // 增加评论
-    function setComment(string commentUser, string comment, int score, string ctime) public payable {
+    function setComment(string commentUser, string comment, string score, string ctime) public payable {
         require(
             peopleWeight[commentUser] != 3,
             "Everyone can only comment three times"
@@ -48,9 +56,9 @@ contract Object {
         comments.push(Comment(commentUser, comment, ctime, score));
     }
     
-    // 获得当前评论区的名字
-    function getObjectName() public view returns (string _name) {
-        return name;
+    // 获得当前评论区的信息
+    function getObjectInfo() public view returns (info _info) {
+        return info(owner, time, theme, comments.length);
     }
     
     // 获得当前评论区所有评论
