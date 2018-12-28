@@ -145,6 +145,7 @@ export default {
   }
 }
 </script>
+
 <style>
 .login-container {
   -webkit-border-radius: 5px;

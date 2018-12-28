@@ -13,12 +13,12 @@ var getTransactionsByAddr = async function (web3, account, startBlockNumber, end
       block.transactions.forEach(function (e) {
         if (e.from === null) e.from = ''
         if (e.to === null) e.to = ''
-        console.log(account, e.from, e.to)
+        // console.log(account, e.from, e.to)
         if (account === '*' || account.toLowerCase() === e.from.toLowerCase() || account.toLowerCase() === e.to.toLowerCase()) {
           e.value = web3.utils.fromWei(e.value.toString())
           e.timestamp = timeConverter(block.timestamp)
           all.push(e)
-          console.log(e)
+          // console.log(e)
         }
       })
     }

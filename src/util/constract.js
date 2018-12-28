@@ -1,4 +1,4 @@
-const address = '0x5e9628380eaabe170c66a5e25a6ab3b19363c345'
+const address = '0x8544f4a5e5b47d2e7335c0a072a27d34555e707a'
 
 const coinbase = '0xb739b7552705db7c47b896bd73cca028ed7552fc'
 
@@ -105,8 +105,8 @@ const ComABI = [
     ],
     'name': 'setComment',
     'outputs': [],
-    'payable': true,
-    'stateMutability': 'payable',
+    'payable': false,
+    'stateMutability': 'nonpayable',
     'type': 'function'
   },
   {
@@ -169,5 +169,4 @@ const ComABI = [
     'type': 'constructor'
   }
 ]
-
 export { coinbase, address, FacABI, ComABI }

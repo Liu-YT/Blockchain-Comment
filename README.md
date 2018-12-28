@@ -1,5 +1,14 @@
 # public-comment
 
+## Background
+![选题背景与依据](./docs/主题背景.md)
+
+## Usage
+![使用说明](./docs/使用说明.md)
+
+## Test
+![测试文档](./docs/测试.md)
+
 > A Vue.js project
 
 ## Build Setup
@@ -23,7 +32,3 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-## 

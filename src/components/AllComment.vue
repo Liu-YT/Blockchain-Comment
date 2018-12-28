@@ -250,11 +250,10 @@ export default {
                   fac.methods.setComment(_this.$store.state.account, _this.ruleForm1.comment, _this.ruleForm1.score.toString(), String(Date.parse(new Date())))
                     .send({from: _this.$store.state.account, gas: '3000000'})
                     .then(
-                      function (err, result) {
-                        console.log(err)
+                      function (result) {
                         _this.$notify({
                           title: '提示',
-                          message: '你的交易已被确认',
+                          message: '你的交易已完成',
                           type: 'success',
                           duration: 0
                         })
@@ -265,7 +264,7 @@ export default {
                         _this.dialogFormVisible = false
                         console.log(err)
                         _this.$message({
-                          message: '余额不足',
+                          message: err.message,
                           type: 'err',
                           showClose: true
                         })
@@ -331,8 +330,7 @@ export default {
               try {
                 _this.$web3.eth.sendTransaction({from: _this.$store.state.account, to: row.name, value: money})
                   .then(
-                    function (err, result) {
-                      console.log(err, result)
+                    function (result) {
                       _this.$notify({
                         title: '提示',
                         message: '赞赏成功\t' + row.name,

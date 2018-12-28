@@ -53,29 +53,41 @@
       </el-table>
     </div>
     <div class="comment userInfo" id="comment">
-      <h1>我的评论</h1>
+      <h1>我的提问</h1>
       <el-table
         v-loading="cLoading"
         :data="comData"
         stripe
-        style="width: 100%">
-        <el-table-column
-          prop="date"
-          label="Date"
-          width="180">
+        style="width: 100%;">
+        <el-table-column width="200" prop='ctime'>
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 5px">{{ scope.row.ctime }}</span>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="name"
-          label="From"
-          width="180">
+        <el-table-column width="100">
+          <template slot-scope='scope'>
+            <el-tag >{{ scope.row.theme }}</el-tag>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="address"
-          label="To">
+        <el-table-column width='800'>
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+              标题 <el-tag type="info">{{ scope.row.name }}</el-tag>
+              <p></p>
+              发起人 <el-tag type="success">{{ scope.row.owner }}</el-tag>
+              <div slot="reference" class="name-wrapper">
+                <el-button type="primary">{{ scope.row.name }}</el-button>
+              </div>
+            </el-popover>
+          </template>
         </el-table-column>
-        <el-table-column
-          prop="address"
-          label="To">
+        <el-table-column width='100'>
+          <template slot-scope="scope">
+            <el-badge v-bind:value='scope.row.num' :max="10" class="item">
+              <el-button size="small">回复</el-button>
+            </el-badge>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -83,8 +95,8 @@
 </template>
 
 <script>
-// import { address, FacABI, ComABI } from './../util/constract'
-import { getTransactionsByAddr } from './../util/getTransactionsByAddr'
+import { address, FacABI, ComABI } from './../util/constract'
+import { getTransactionsByAddr, formatDate } from './../util/getTransactionsByAddr'
 
 export default {
   data () {
@@ -124,6 +136,30 @@ export default {
         _this.tLoading = false
       }
     )
+
+    let fac = new this.$web3.eth.Contract(FacABI, address)
+    fac.methods.getAllContracts().call().then(
+      function (result) {
+        console.log(result)
+        for (let i = 0; i < result.length; ++i) {
+          let com = new _this.$web3.eth.Contract(ComABI, result[i])
+          com.methods.getObjectInfo().call()
+            .then((info) => {
+              if (info.owner === _this.$store.state.account) {
+                info.address = result[i]
+                info.ctime = formatDate(parseInt(info.ctime))
+                info.children = []
+                _this.comData.push(info)
+              }
+              _this.cLoading = false
+            })
+            .catch((e) => {
+              _this.cLoading = false
+              console.log(e)
+            })
+        }
+      }
+    )
   }
 }
 </script>
@@ -161,5 +197,13 @@ a {
 .accountInfo {
   float: left;
   margin: 40px;
+}
+
+.comment {
+  overflow: hidden;
+}
+
+.item {
+  margin-top: 10px;
 }
 </style>
